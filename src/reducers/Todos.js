@@ -1,9 +1,4 @@
-const initialState = {
-  todos: [
-    { text: "lorem ipsum", isDone: false },
-    { text: "bla bla bla lorem ipsum", isDone: false },
-  ],
-};
+import { initialState } from "./initialState";
 
 export const todosReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -24,6 +19,14 @@ export const todosReducer = (state = initialState, action) => {
         todos: state.todos.map((item, index) =>
           action.id === index ? { ...item, isDone: !item.isDone } : item
         ),
+      };
+    case "EDIT_TODO":
+      console.log("EDIT", action.id);
+      return {
+        ...state,
+        // todos: state.todos.map((item, index) =>
+        //   action.id === index ? { ...item, text: "edited" } : item
+        // ),
       };
     default:
       return state;

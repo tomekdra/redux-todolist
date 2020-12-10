@@ -5,10 +5,14 @@ import {
   ListItem,
   ListItemText,
   Card,
+  ListItemSecondaryAction,
+  TextField,
 } from "@material-ui/core";
 import { Delete, Edit } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { removeTodo, toggleTodo } from "../action";
+import { removeTodo, toggleTodo, editTodo } from "../action";
+import React, { useState } from "react";
+import TodoEditable from "./TodoEditable";
 
 const useStyles = makeStyles({
   cards: {
@@ -27,12 +31,14 @@ const useStyles = makeStyles({
   },
   isDone: {
     textDecorationLine: "line-through",
+    color: "#aaa",
   },
 });
 
 export default function TodoList() {
   const classes = useStyles();
   const todos = useSelector((state) => state.todos);
+
   const dispatch = useDispatch();
 
   const deleteTodo = (id) => {
@@ -41,30 +47,32 @@ export default function TodoList() {
   const toggle = (id) => {
     dispatch(toggleTodo(id));
   };
-
+  const editItem = (id) => {
+    dispatch(editTodo(id));
+  };
+  let boolean = false;
   return (
     <Card elevation={10} className={classes.cards}>
       <List>
         {todos &&
           todos.map((item, index) => {
             return (
-              <ListItem divider key={`todo-${index}`}>
-                <ListItemText
-                  className={classes.hover}
-                  onClick={() => toggle(index)}
-                >
-                  {item.isDone ? (
-                    <div className={classes.isDone}> {item.text}</div>
-                  ) : (
-                    item.text
-                  )}
-                </ListItemText>
-                <IconButton onClick={() => deleteTodo(index)}>
-                  <Delete color="secondary" />
-                </IconButton>
-                <IconButton>
-                  <Edit color="primary" />
-                </IconButton>
+              <ListItem
+                divider
+                key={`todo-${index}`}
+                className={classes.hover}
+                // onClick={() => toggle(index)}
+              >
+                <TodoEditable todo={item} boolean={boolean} />
+
+                <ListItemSecondaryAction>
+                  <IconButton onClick={() => deleteTodo(index)}>
+                    <Delete color="secondary" />
+                  </IconButton>
+                  <IconButton onClick={() => (boolean = true)}>
+                    <Edit color="primary" />
+                  </IconButton>
+                </ListItemSecondaryAction>
               </ListItem>
             );
           })}

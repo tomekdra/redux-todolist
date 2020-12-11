@@ -28,8 +28,13 @@ export default function Input() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addTodo(input.current.value));
-    input.current.value = "";
+    if (input.current.value < 3) {
+      console.log("error"); // todo, show error message
+      return;
+    } else {
+      dispatch(addTodo(input.current.value));
+      input.current.value = "";
+    }
   };
 
   return (

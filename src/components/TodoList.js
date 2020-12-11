@@ -1,25 +1,13 @@
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  Card,
-  ListItemSecondaryAction,
-  TextField,
-} from "@material-ui/core";
-import { Delete, Edit } from "@material-ui/icons";
+import { List, ListItem, Card } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { removeTodo, toggleTodo, editTodo } from "../action";
-import React, { useState } from "react";
+
 import TodoEditable from "./TodoEditable";
 
 const useStyles = makeStyles({
   cards: {
     padding: 10,
-    margin: 10,
-  },
-  insideMargin: {
     margin: 10,
   },
   hover: {
@@ -28,10 +16,6 @@ const useStyles = makeStyles({
       backgroundColor: "#ddd",
       cursor: "pointer",
     },
-  },
-  isDone: {
-    textDecorationLine: "line-through",
-    color: "#aaa",
   },
 });
 
@@ -47,32 +31,24 @@ export default function TodoList() {
   const toggle = (id) => {
     dispatch(toggleTodo(id));
   };
-  const editItem = (id) => {
-    dispatch(editTodo(id));
+  const edit = (id, content) => {
+    dispatch(editTodo(id, content));
   };
-  let boolean = false;
+
   return (
     <Card elevation={10} className={classes.cards}>
       <List>
         {todos &&
           todos.map((item, index) => {
             return (
-              <ListItem
-                divider
-                key={`todo-${index}`}
-                className={classes.hover}
-                // onClick={() => toggle(index)}
-              >
-                <TodoEditable todo={item} boolean={boolean} />
-
-                <ListItemSecondaryAction>
-                  <IconButton onClick={() => deleteTodo(index)}>
-                    <Delete color="secondary" />
-                  </IconButton>
-                  <IconButton onClick={() => (boolean = true)}>
-                    <Edit color="primary" />
-                  </IconButton>
-                </ListItemSecondaryAction>
+              <ListItem divider key={`todo-${index}`} className={classes.hover}>
+                <TodoEditable
+                  todo={item}
+                  index={index}
+                  deleteTodo={deleteTodo}
+                  toggle={toggle}
+                  editTodo={edit}
+                />
               </ListItem>
             );
           })}

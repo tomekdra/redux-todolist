@@ -13,7 +13,6 @@ export const todosReducer = (state = initialState, action) => {
         todos: state.todos.filter((item, index) => index !== action.id),
       };
     case "TOGGLE_TODO":
-      console.log("toggle");
       return {
         ...state,
         todos: state.todos.map((item, index) =>
@@ -21,12 +20,11 @@ export const todosReducer = (state = initialState, action) => {
         ),
       };
     case "EDIT_TODO":
-      console.log("EDIT", action.id);
       return {
         ...state,
-        // todos: state.todos.map((item, index) =>
-        //   action.id === index ? { ...item, text: "edited" } : item
-        // ),
+        todos: state.todos.map((item, index) =>
+          action.id === index ? { ...item, text: action.content } : item
+        ),
       };
     default:
       return state;

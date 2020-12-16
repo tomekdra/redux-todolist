@@ -1,6 +1,6 @@
 # [Redux Todo App](https://tomekdra.github.io/redux-todolist/)
 
-# Live: [Redux Todo App](https://tomekdra.github.io/redux-todolist/)
+ Live: [Redux Todo App](https://tomekdra.github.io/redux-todolist/)
 ## Project created with:
 
 - create-react-app
